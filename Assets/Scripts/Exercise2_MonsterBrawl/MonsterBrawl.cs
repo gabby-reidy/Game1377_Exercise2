@@ -37,8 +37,68 @@ public class MonsterBrawl : MonoBehaviour
         int[] attackStats = { 8, 20, 35, 12, 50 };
         int[] healthStats = { 30, 80, 200, 50, 250 };
         int[] speedStats = { 1, 2, 3, 1, 4 };
+        int totalMonsters = monsterNames.Length;
 
-        // YOUR CODE GOES HERE
+        // Print the roster - using a for loop, taking an int variable to pull from the arrays
+        for (int i = 0; i < totalMonsters; i++) 
+        {
+            Debug.Log(monsterNames[i] + " | ATK: " + attackStats[i] + " | HP: " + healthStats[i] + " | SPD: " + speedStats[i]);
+        }
+
+        //Simulate every unique 1v1 fight
+        //a is fighting monster, b is opponent
+        for (int a = 0; a < totalMonsters - 1; a++)
+        {
+            for (int b = a + 1; b < totalMonsters; b++)
+            {
+                int healthA = healthStats[a];
+                int healthB = healthStats[b];
+                int turn = 0;
+
+                // this checks for each monsters health, and continues while they are alive
+                while (healthA > 0 && healthB > 0)
+                {
+                    turn++;
+
+                    //assigning damage to each monster
+                    if (turn % speedStats[a] == 0)
+                    {
+                        healthB -= attackStats[a];
+                    }
+                    if (turn % speedStats[b] == 0)
+                    {
+                        healthA -= attackStats[b];
+                    }
+
+                }
+                string monsterFight = monsterNames[a] + " vs " + monsterNames[b];
+
+                // checks if both monsters are dead, produces draw result
+                if (healthA <= 0 && healthB <= 0)
+                {
+                    Debug.Log(monsterFight + " | Draw | Turns: " + turn);
+                }
+                else
+                {
+                    string winningMonster;
+                    int winnerHealth;
+
+                    if (healthA > healthB)
+                    {
+                        winningMonster = monsterNames[a];
+                        winnerHealth = healthA;
+                    }
+                    else
+                    {
+                        winningMonster = monsterNames[b];
+                        winnerHealth = healthB;
+                    }
+                    Debug.Log(monsterFight + " | Winner: " + winningMonster + " | Turns: " + turn + " | Remaining HP: " + winnerHealth);
+                }
+            }
+            
+        }
+
     }
 }
 
